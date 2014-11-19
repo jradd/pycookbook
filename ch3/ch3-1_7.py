@@ -27,13 +27,13 @@ print(6-3)
 
 '3.2 Performing Accurate Calculation'
 
-print(3.2+3.1 == 6.3) # False 
+print(3.2+3.1 == 6.3) # False
 
-from decimal import Decimal 
+from decimal import Decimal
 a = Decimal('3.2')
 b = Decimal('3.1')
-c = a + b 
-print (c == Decimal('6.3')) # True 
+c = a + b
+print (c == Decimal('6.3')) # True
 
 
 print(a/b)
@@ -42,13 +42,13 @@ print(a/b)
 # control precise
 from decimal import localcontext
 with localcontext() as ctx:
-	ctx.prec = 3 
-	print(a/b) # 1.03 
+	ctx.prec = 3
+	print(a/b) # 1.03
 
 
 with localcontext() as ctx:
 	ctx.prec = 30
-	print(a/b) # 1.03 
+	print(a/b) # 1.03
 
 
 
@@ -76,5 +76,23 @@ a = float('inf')
 b = float('-inf')
 c = float('nan')
 print(a>2)
-print(a>b) # True 
+print(a>b) # True
 print(a>c) # False
+
+
+'3.8 Calculating with Fractions'
+
+from fractions import Fraction
+a = Fraction(5, 4)
+b = Fraction(7, 16)
+
+print(a+b)
+
+#
+# Converting a float to a fraction
+x = 3.75
+y = Fraction(*x.as_integer_ratio())
+print(y)
+
+
+
