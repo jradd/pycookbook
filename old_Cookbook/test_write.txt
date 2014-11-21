@@ -1,0 +1,3 @@
+this is first line file = f
+
+this is secodn line, i am a writer? LOL file = f
