@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+__author__  = "Stevey"
+__project__ = ""
 
 
 # # 2013-10-9
@@ -32,10 +37,10 @@
 
 # date = "2014-10-30"
 # print("Date: Year-%s, Month-%s, Day-%s" % (formatDate(date)))
-
-
-'calculate there are how many zeros in 300!'
-
+from unicode import unicode
+string = '天下第一剑'
+for s in string:
+	print(unicode(s))
 
 
 
