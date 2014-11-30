@@ -207,3 +207,186 @@ print(c.perimeter)
 
 
 'Calling a Method on a Parent Class'
+
+'Problem invoke a method in a parent class'
+'Solution: super function'
+
+
+class A:
+	def spam(self):
+		print('I am A.spam')
+
+class B(A):
+	def spam(sef):
+		print('I am B.spam')
+		super().spam()  # Call parent spam()
+
+a = A(); a.spam()
+b = B(); b.spam()
+'super() is in the handling of the __init__() method to make sure that parents are properly initialized:'
+# print(type(
+
+
+class A:
+    def __init__(self):
+        self.x = 0
+
+class B(A):
+    def __init__(self):
+        super().__init__()
+        self.y = 1
+a = A()
+b = B(); print(b.x)
+
+
+
+
+'Extending a Property in a Subclass'
+
+'problem'
+'within a subclass, you want to extend the functionality of a property defined in a parent a class'
+
+'Solution'
+
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+    # Getter function
+    @property
+    def name(self):
+        return self._name
+
+    # Setter function
+    @name.setter
+    def name(self, value):
+        if not isinstance(value, str):
+            raise TypeError('Expected a string')
+        self._name = value
+
+    # Deleter function
+    @name.deleter
+    def name(self):
+        raise AttributeError("Can't delete attribute")
+
+
+class SubPerson(Person):
+	@property
+	def name(self):
+		print('Getting name')
+		return super().name
+	@name.setter
+	def name(self, value):
+		print('Setting name to ', value)
+		super(SubPerson, SubPerson).name.__set__(self, value)
+
+	@name.deleter
+	def name(self):
+		print('Deleting name')
+		super(SubPerson, SubPerson).name.__delete__(self)
+
+s = SubPerson('Guido')
+print(s.name)
+
+s.name = 'Larry'
+
+# s.name = 42 # TypeError
+
+
+'Creating a New kind of class or instance attribute'
+
+'Problem want to create a new kind of instance attribute type with some extra funcionality'
+
+class Integer:
+	def __init__(self, name):
+		self.name = name
+	def __get__(self, instance, cls):
+		if instance is None:
+			return self
+		else:
+			return instance.__dict__[self.name]
+	def __set__(self, instance, value):
+		if not instance(value, int):
+			raise TypeError('Expected an int')
+		instance.__dict__[self.name] = value
+
+	def __delete__(self, instance):
+		del instance.__dict__[self.name]
+
+
+class Point:
+	x = Integer('x')
+	y = Integer('y')
+	def __init__(self, x, y ):
+		self.x=x; self.y=y
+
+
+
+'Using Lazily Computed Properties'
+
+class lazyproperty:
+	def __init__(self, func):
+		self.func = func
+	def __get__(self, instance, cls):
+		if instance is None:
+			return self
+		else:
+			value = self.func(instance)
+			setattr(instance, self.func.__name__, value)
+			return value
+
+import math
+class Circle:
+	def __init__(self, radius):
+		self.radius = radius
+		self.name = 'Circle II'
+
+	@lazyproperty
+	def area(self):
+		print('Computing area')
+		return math.pi * self.radius**2
+	@lazyproperty
+	def perimeter(self):
+		print('Computing perimeter')
+		return 2 *math.pi * self.radius
+
+c = Circle(4)
+print(vars(c))
+# print(dir(c))
+print(c.radius)
+print(c.area); print(c.perimeter)
+# print(dir(c))
+
+
+print(vars(c))
+
+
+
+
+
+'Simplifying the Initialization of Data Structures'
+
+class Structure:
+    # Class variable that specifies expected fields
+    _fields= []
+    def __init__(self, *args):
+        if len(args) != len(self._fields):
+            raise TypeError('Expected {} arguments'.format(len(self._fields)))
+
+        # Set the arguments
+        for name, value in zip(self._fields, args):
+            setattr(self, name, value)
+
+
+# Example class definitions
+if __name__ == '__main__':
+    class Stock(Structure):
+        _fields = ['name', 'shares', 'price']
+
+    class Point(Structure):
+        _fields = ['x','y']
+
+    class Circle(Structure):
+        _fields = ['radius']
+        def area(self):
+            return math.pi * self.radius ** 2
