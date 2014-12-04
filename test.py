@@ -116,3 +116,10 @@ patt2 = re.compile(r'(\d+)[-/](\d+)[-/](\d+)')
 qqpattern = re.compile(r'\d+@qq.com')
 text = '1231@qq.com 123123qq.com 321@qq.com.cn 123@qq.cn'
 print(qqpattern.findall(text))
+
+
+
+'translate'
+
+s = 'asdfa123adsfawqr'
+print(s.translate('aeiuo'))
