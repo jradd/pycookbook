@@ -64,8 +64,7 @@ class A:
 
 a = A()
 a2 = A()
-a.method()
-a2.method()
+a.method(); a2.method()
 
 class B:
 	# Equivalent definition of a class method
@@ -75,6 +74,5 @@ class B:
 
 b = B()
 b2 = B()
-b.method()
-b2.method()
+b.method(); b2.method()
 
